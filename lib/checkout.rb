@@ -1,7 +1,7 @@
 class Checkout 
-
-    def initialize()
+    def initialize(promotional_rules = [])
         @items = {}
+        @promotional_rules = promotional_rules
     end
 
     def scan(item)
@@ -15,8 +15,14 @@ class Checkout
     end
 
     def total
-        @items.values.reduce(0) do |total, item| 
-            total + item[:price] * item[:quantity]
+        total = total_without_promotions
+
+        return total if (@promotional_rules.empty?)        
+
+        if (@promotional_rules.first == :ten_percent_discount && total > 60.0)
+            total * 0.9
+        else 
+            total
         end
     end
 
@@ -25,4 +31,10 @@ class Checkout
     def already_scanned?(item)
         @items.include?(item[:code])
     end 
+
+    def total_without_promotions 
+        @items.values.reduce(0) do |total, item| 
+            total + item[:price] * item[:quantity]
+        end
+    end
 end 
