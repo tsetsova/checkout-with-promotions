@@ -1,4 +1,6 @@
 require 'checkout'
+require 'promotions/bulk_promotion'
+require 'promotions/total_promotion'
 
 describe Checkout do 
 
@@ -21,7 +23,8 @@ describe Checkout do
     end
 
     context "with 10% discount for total over 60" do 
-        let(:checkout) { described_class.new([:ten_percent_discount]) }
+        let(:ten_percent_discount) { TotalPromotion.new(threshold_price: 60.0, percentage: 10) }
+        let(:checkout) { described_class.new([ten_percent_discount]) }
 
         it "applies discount" do
             checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
@@ -38,7 +41,8 @@ describe Checkout do
     end
 
     context "bulk discounts" do 
-        let(:checkout) { described_class.new([:cheap_chair_discount]) }
+        let(:cheap_chair_discount) { BulkPromotion.new(item_code: '001', threshold_quantity: 2, promotional_price: 8.5) }
+        let(:checkout) { described_class.new([cheap_chair_discount]) }
 
         it "applies discount for multiple chairs" do
             checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})

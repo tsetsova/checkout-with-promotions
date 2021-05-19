@@ -1,5 +1,3 @@
-require 'promotion_calculator'
-
 class Checkout 
     def initialize(promotional_rules = [])
         @items = {}
@@ -19,8 +17,7 @@ class Checkout
     def total
         return total_without_promotions if (@promotional_rules.empty?)
 
-        calc = PromotionCalculator.new(@promotional_rules)
-        calc.new_total(@items, total_without_promotions)
+        total_without_promotions - @promotional_rules.map{|promo| promo.calculate_discount_for(@items)}.sum
     end
 
     private
