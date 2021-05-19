@@ -37,20 +37,14 @@ describe Checkout do
         end 
     end
 
-    context "with 2 or more chairs" do 
+    context "bulk discounts" do 
         let(:checkout) { described_class.new([:cheap_chair_discount]) }
 
-        it "applies discount for 3 chairs" do
+        it "applies discount for multiple chairs" do
             checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
             checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
             checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
             expect(checkout.total).to eq 25.50
-        end 
-
-        it "applies discount for 2 chairs" do
-            checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
-            checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
-            expect(checkout.total).to eq 17.00
         end 
 
         it "doesn't apply discount for 1 chair" do
