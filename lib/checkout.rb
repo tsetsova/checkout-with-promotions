@@ -1,3 +1,5 @@
+require 'promotion_calculator'
+
 class Checkout 
     def initialize(promotional_rules = [])
         @items = {}
@@ -15,17 +17,10 @@ class Checkout
     end
 
     def total
-        total = total_without_promotions
+        return total_without_promotions if (@promotional_rules.empty?)
 
-        return total if (@promotional_rules.empty?)   
-
-        if (@promotional_rules.include?(:ten_percent_discount) && total > 60.0)
-            total * 0.9
-        elsif (@promotional_rules.include?(:cheap_chair_discount) && @items["001"][:quantity] >= 2)
-            total - @items["001"][:quantity] * 0.75
-        else 
-            total
-        end
+        calc = PromotionCalculator.new(@promotional_rules)
+        calc.new_total(@items, total_without_promotions)
     end
 
     private
