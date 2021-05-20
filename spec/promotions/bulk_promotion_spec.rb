@@ -20,4 +20,12 @@ describe BulkPromotion do
 
         expect(bulk_promotion.calculate_discount_for(items, 54.25)).to eq 0
     end
+
+    it "doesn't returns no discount if the item is missing" do
+        items = {
+            "002" => { name: "Little Table", price: 45.00, quantity: 1 } 
+        }
+
+        expect(bulk_promotion.calculate_discount_for(items, 45.00)).to eq 0
+    end
 end

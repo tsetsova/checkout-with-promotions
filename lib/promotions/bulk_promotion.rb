@@ -6,11 +6,13 @@ class BulkPromotion
     end
     
     def calculate_discount_for(items, _)
+        return 0 if items.any?(@item_code)
+
         item = items[@item_code]
 
         if (item && item[:quantity] >= @threshold_quantity)
             item[:quantity] * (item[:price] - @promotional_price)
-        else 
+        else
             0
         end
     end
