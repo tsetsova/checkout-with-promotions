@@ -1,0 +1,10 @@
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context']
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+  
