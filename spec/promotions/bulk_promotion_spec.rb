@@ -9,7 +9,7 @@ describe BulkPromotion do
             "002" => { name: "Little Table", price: 45.00, quantity: 1 } 
         }
 
-        expect(bulk_promotion.calculate_discount_for(items)).to eq 2.25
+        expect(bulk_promotion.calculate_discount_for(items, 72.75)).to eq 2.25
     end
 
     it "doesn't calculate when not necessary" do
@@ -18,6 +18,6 @@ describe BulkPromotion do
             "002" => { name: "Little Table", price: 45.00, quantity: 1 } 
         }
 
-        expect(bulk_promotion.calculate_discount_for(items)).to eq 0
+        expect(bulk_promotion.calculate_discount_for(items, 54.25)).to eq 0
     end
 end

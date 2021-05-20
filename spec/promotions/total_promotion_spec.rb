@@ -8,7 +8,7 @@ describe TotalPromotion do
             "002" => { name: "Little Table", price: 45.00, quantity: 2 } 
         }
 
-        expect(total_promotion.calculate_discount_for(items)).to eq 9
+        expect(total_promotion.calculate_discount_for(items, 90.00)).to eq 9
     end
 
 
@@ -17,6 +17,6 @@ describe TotalPromotion do
             "002" => { name: "Little Table", price: 45.00, quantity: 1 } 
         }
 
-        expect(total_promotion.calculate_discount_for(items)).to eq 0
+        expect(total_promotion.calculate_discount_for(items, 45.00)).to eq 0
     end
 end

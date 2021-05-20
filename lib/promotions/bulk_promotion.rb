@@ -4,8 +4,8 @@ class BulkPromotion
         @threshold_quantity = threshold_quantity
         @promotional_price = promotional_price
     end
-
-    def calculate_discount_for(items)
+    
+    def calculate_discount_for(items, _)
         item = items[@item_code]
 
         if (item && item[:quantity] >= @threshold_quantity)

@@ -4,19 +4,9 @@ class TotalPromotion
         @percentage = percentage
     end
 
-    def calculate_discount_for(items)
-        total = total(items)
+    def calculate_discount_for(_, running_total)
+        return 0 if running_total < 60.0
 
-        return 0 if total < 60.0
-
-        total * @percentage / 100
-    end
-
-    private
-
-    def total(items)
-        items.values.reduce(0) do |total, item| 
-            total + item[:price] * item[:quantity]
-        end
+        running_total * @percentage / 100
     end
 end 

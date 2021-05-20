@@ -16,8 +16,10 @@ class Checkout
 
     def total
         return total_without_promotions if (@promotional_rules.empty?)
-
-        total_without_promotions - @promotional_rules.map{|promo| promo.calculate_discount_for(@items)}.sum
+ 
+        @promotional_rules.reduce(total_without_promotions) do |running_total, promo|
+            running_total -= promo.calculate_discount_for(@items, running_total)
+        end.round(2)
     end
 
     private
@@ -31,4 +33,4 @@ class Checkout
             total + item[:price] * item[:quantity]
         end
     end
-end 
+end

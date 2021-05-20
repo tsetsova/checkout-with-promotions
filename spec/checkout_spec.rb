@@ -56,4 +56,18 @@ describe Checkout do
             expect(checkout.total).to eq 9.25
         end 
     end
-end 
+
+    context "applies both promotions" do 
+        let(:cheap_chair_discount) { BulkPromotion.new(item_code: '001', threshold_quantity: 2, promotional_price: 8.5) }
+        let(:ten_percent_discount) { TotalPromotion.new(threshold_price: 60.0, percentage: 10) }
+        let(:checkout) { described_class.new([cheap_chair_discount, ten_percent_discount]) }
+
+        it "applies multiple discounts" do
+            checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
+            checkout.scan({code: "002", name: "Little Table", price: 45.00})
+            checkout.scan({code: "001", name: "Very Cheap Chair", price: 9.25})
+            checkout.scan({code: "003", name: "Funky Light", price: 19.95})
+            expect(checkout.total).to eq 73.76
+        end 
+    end
+end
